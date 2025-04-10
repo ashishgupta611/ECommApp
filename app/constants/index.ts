@@ -10,12 +10,6 @@ export const API = {
     },
   } as const;
   
-  // Strings
-  export const NAVIGATION = {
-    MovieList: 'MovieList',
-    LOGIN: 'Login',
-  } as const;
-  
   // Regex
   export const REGEX = {
     EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // Basic email validation

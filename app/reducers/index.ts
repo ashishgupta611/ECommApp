@@ -5,11 +5,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import userReducer from './userSlice';
 import authReducer from './authSlice';
 import settingsReducer from './settingsSlice';
+import cartReducer from './cartSlice';
 
 const rootReducer = combineReducers({
   user: userReducer,
   auth: authReducer,
   settings: settingsReducer,
+  cart: cartReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

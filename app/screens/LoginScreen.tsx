@@ -1,13 +1,17 @@
-import React, { useState, memo, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { TextInput, Button, View, Text, TouchableOpacity } from 'react-native';
+import { View, Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { RootState } from '../store';
-import { styles } from '../styles/LoginStyle';
-import { setCredentials } from '../reducers/userSlice';
-import { login } from '../reducers/authSlice';
-import LanguagePicker from '../components/LanguagePicker';
-import { REGEX, COLORS, STRINGS } from '../constants';
+// import { styles } from '../styles/LoginStyle';
+import { commonStyles } from '../styles/CommonStyle';
+import { login, registering } from '../reducers/authSlice';
+import MemoizedPicker from '../components/LanguagePicker';
+import { REGEX, STRINGS } from '../constants';
+import FormContainer from '../components/FormContainer';
+import TextInputWithLabel from '../components/TextInputWithLabel';
+import ButtonWithText from '../components/ButtonWithText';
+import InlineActionText from '../components/InlineActionText';
 
 const LoginScreen: React.FC = () => {
   const { t } = useTranslation();
@@ -29,56 +33,39 @@ const LoginScreen: React.FC = () => {
   }, [email]);
 
   const handleLogin = useCallback(() => {
-    if (isEmailValid && isValidPassword) {
-      dispatch(setCredentials({ email, password }));
-      // TODO:: Setting 'User1' have no use here. 
-      dispatch(login('User1'));
+    if (isEmailValid && isValidPassword && user && user.email === email && user.password === password) {
+      dispatch(login(user));
     }
   }, [email, password]);
 
   const handleRegistration = useCallback(() => {
-    //dispatch(register());
+    dispatch(registering(true));
   }, []);
 
-  const MemoizedPicker = memo(() => <LanguagePicker />);
-
   return (
-    <View style={styles.container}>
+    <View style={commonStyles.container}>
       <MemoizedPicker />
-      <Text style={styles.formHeaderText}>{t('login')}</Text>
-      <View style={styles.loginForm}>
-        <Text style={styles.textLabel}>{t('email')}</Text>
-        <TextInput
-          style={[styles.input, !isEmailValid && { borderColor: COLORS.ERROR }]}
+      <Text style={commonStyles.headerText}>{t('login')}</Text>
+      <FormContainer style={commonStyles.formContainer}>
+        <TextInputWithLabel
+          label={t('email')}
           placeholder={t('enterEmail')}
           value={email}
           onChangeText={handleEmailTextChange}
           keyboardType="email-address"
           autoCapitalize="none"
+          error={isEmailValid ? STRINGS.EMPTY : t('enter_valid_email')}
         />
-        {!isEmailValid && (
-          <Text style={styles.errorText}>{t('enter_valid_email')}</Text>
-        )}
-        <Text style={[styles.textLabel, styles.passwordLabel]}>{t('password')}</Text>
-        <TextInput
-          style={[styles.input, styles.passwordInput]}
+        <TextInputWithLabel
+          label={t('password')}
           placeholder={t('enterPassword')}
           value={password}
           onChangeText={setPassword}
           secureTextEntry
         />
-        <Button
-          title={t('submit')}
-          onPress={handleLogin}
-          disabled={!(isEmailValid && isValidPassword)}
-        />
-        <View style={styles.createAccountContainer}>
-          <Text style={styles.createAccountLabel}>{t('Do not have an Account?')}</Text>
-          <TouchableOpacity style={[styles.createAccountButton]} onPress={handleRegistration}>
-            <Text style={[styles.createAccountLabel, styles.createAccountText]}>{t('REGISTER')}</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+        <ButtonWithText title={t('submit')} onPress={handleLogin} disabled={!(isEmailValid && isValidPassword)} />
+        <InlineActionText label={t('dont_have_account')} clickableText={t('register_caps')} onPress={handleRegistration} />
+      </FormContainer>
     </View>
   );
 };

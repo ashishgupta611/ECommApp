@@ -1,11 +1,10 @@
+import { UserState } from '../interfaces';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface UserState {
-    email: string,
-    password: string
-}
-
 const initialState: UserState = {
+    firstName: '',
+    lastName: '',
+    phone: '',
     email: '',
     password: ''
 };
@@ -15,6 +14,9 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setCredentials: (state, action:PayloadAction<UserState>)=> {
+            state.firstName = action.payload.firstName;
+            state.lastName = action.payload.lastName;
+            state.phone = action.payload.phone;
             state.email = action.payload.email;
             state.password = action.payload.password;
         },

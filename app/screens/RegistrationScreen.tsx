@@ -1,22 +1,31 @@
 import React, { useState, memo, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { TextInput, Button, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { RootState } from '../store';
-import { styles } from '../styles/LoginStyle';
+// import { RootState } from '../store';
+import { commonStyles } from '../styles/CommonStyle';
+import { styles } from '../styles/RegistrationStyle';
 import { setCredentials } from '../reducers/userSlice';
-import { login } from '../reducers/authSlice';
-import LanguagePicker from '../components/LanguagePicker';
-import { REGEX, COLORS, STRINGS } from '../constants';
+import { register, registering } from '../reducers/authSlice';
+import MemoizedPicker from '../components/LanguagePicker';
+import { REGEX, STRINGS } from '../constants';
+import FormContainer from '../components/FormContainer';
+import TextInputWithLabel from '../components/TextInputWithLabel';
+import ButtonWithText from '../components/ButtonWithText';
+import InlineActionText from '../components/InlineActionText';
+import { UserState } from '../interfaces';
 
 const RegistrationScreen: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const user = useSelector((state: RootState) => state.rootReducer.user);
-
-  const [email, setEmail] = useState<string>(user.email ?? STRINGS.EMPTY);
-  const [password, setPassword] = useState<string>(user.password ?? STRINGS.EMPTY);
+  //const user = useSelector((state: RootState) => state.rootReducer.user);
+  const [firstName, setFirstName] = useState<string>(STRINGS.EMPTY);
+  const [lastName, setLastName] = useState<string>(STRINGS.EMPTY);
+  const [phone, setPhone] = useState<string>(STRINGS.EMPTY);
+  const [email, setEmail] = useState<string>(STRINGS.EMPTY);
+  const [password, setPassword] = useState<string>(STRINGS.EMPTY);
+  const [confirmPassword, setConfirmPassword] = useState<string>(STRINGS.EMPTY);
 
   const isEmailValid = useMemo(() => {
     return email === STRINGS.EMPTY ? true : REGEX.EMAIL.test(email);
@@ -28,47 +37,78 @@ const RegistrationScreen: React.FC = () => {
     setEmail(email);
   }, [email]);
 
-  const handleLogin = useCallback(() => {
-    if (isEmailValid && isValidPassword) {
-      dispatch(setCredentials({ email, password }));
-      // TODO:: Setting 'User1' have no use here. 
-      dispatch(login('User1'));
+  const handleRegistration = useCallback(() => {
+    if (isEmailValid && isValidPassword && confirmPassword && isValidConfirmPassword() && firstName) {
+      const user: UserState = { firstName, lastName, phone, email, password };
+      dispatch(setCredentials(user));
+      dispatch(register(user));
     }
-  }, [email, password]);
+  }, [email, password, confirmPassword, firstName]);
 
-  const MemoizedPicker = memo(() => <LanguagePicker />);
+  const handleLogin = useCallback(() => {
+    dispatch(registering(false));
+  }, []);
+
+  const isValidConfirmPassword = (): boolean => {
+    if (password && confirmPassword && password !== confirmPassword) {
+      return false;
+    }
+    return true;
+  };
 
   return (
-    <View style={styles.container}>
+    <View style={commonStyles.container}>
       <MemoizedPicker />
-      <Text style={styles.formHeaderText}>{t('login')}</Text>
-      <View style={styles.loginForm}>
-        <Text style={styles.textLabel}>{t('email')}</Text>
-        <TextInput
-          style={[styles.input, !isEmailValid && { borderColor: COLORS.ERROR }]}
+      <Text style={commonStyles.headerText}>{t('register')}</Text>
+      <FormContainer style={commonStyles.formContainer}>
+        <View style={styles.nameContainer}>
+          <TextInputWithLabel
+            label={t('name')}
+            placeholder={t('first_name')}
+            value={firstName}
+            onChangeText={setFirstName}
+          />
+          <View style={styles.spacer} />
+          <TextInputWithLabel
+            label={t(STRINGS.EMPTY)}
+            placeholder={t('last_name')}
+            value={lastName}
+            onChangeText={setLastName}
+          />
+        </View>
+        <TextInputWithLabel
+          label={t('phone')}
+          placeholder={t('enter_phone')}
+          value={phone}
+          onChangeText={setPhone}
+        />
+        <TextInputWithLabel
+          label={t('email')}
           placeholder={t('enterEmail')}
           value={email}
           onChangeText={handleEmailTextChange}
           keyboardType="email-address"
           autoCapitalize="none"
+          error={isEmailValid ? STRINGS.EMPTY : t('enter_valid_email')}
         />
-        {!isEmailValid && (
-          <Text style={styles.errorText}>{t('enter_valid_email')}</Text>
-        )}
-        <Text style={[styles.textLabel, styles.passwordLabel]}>{t('password')}</Text>
-        <TextInput
-          style={[styles.input, styles.passwordInput]}
+        <TextInputWithLabel
+          label={t('password')}
           placeholder={t('enterPassword')}
           value={password}
           onChangeText={setPassword}
           secureTextEntry
         />
-        <Button
-          title={t('submit')}
-          onPress={handleLogin}
-          disabled={!(isEmailValid && isValidPassword)}
+        <TextInputWithLabel
+          label={t('confirm_password')}
+          placeholder={t('confirm_your_password')}
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          error={isValidConfirmPassword() ? STRINGS.EMPTY :  t('password_not_match')}
+          secureTextEntry
         />
-      </View>
+        <ButtonWithText title={t('submit')} onPress={handleRegistration} disabled={!(isEmailValid && isValidPassword)} />
+        <InlineActionText label={t('have_account_already')} clickableText={t('login_caps')} onPress={handleLogin} />
+      </FormContainer>
     </View>
   );
 };
