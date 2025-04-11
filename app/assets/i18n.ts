@@ -38,6 +38,9 @@ i18n.use(initReactI18next).init({
         submit: 'SUBMIT',
         moviesList: 'Movie List',
         popularMovies: 'Popular Movies',
+        enter_valid_password: 'Please enter a valid password.',
+        enter_registered_email: 'Please enter your email registered with us.',
+        email_not_registered: 'Email is not registered with us. Please register your account with us.'
       },
     },
     ar: {
@@ -71,6 +74,9 @@ i18n.use(initReactI18next).init({
         submit: 'SUBMIT',
         moviesList: 'قائمة الأفلام',
         popularMovies: 'الأفلام الشائعة',
+        enter_valid_password: 'Please enter a valid password.',
+        enter_registered_email: 'Please enter your email registered with us.',
+        email_not_registered: 'Email is not registered with us. Please register your account with us.'
       },
     },
   },

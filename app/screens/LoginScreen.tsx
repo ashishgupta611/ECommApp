@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { View, Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -21,6 +21,11 @@ const LoginScreen: React.FC = () => {
 
   const [email, setEmail] = useState<string>(user.email ?? STRINGS.EMPTY);
   const [password, setPassword] = useState<string>(user.password ?? STRINGS.EMPTY);
+  const [errorMessage, setErrorMessage] = useState<string>(STRINGS.EMPTY);
+
+  useEffect(() => {
+    setErrorMessage(STRINGS.EMPTY);
+  }, [email, password]);
 
   const isEmailValid = useMemo(() => {
     return email === STRINGS.EMPTY ? true : REGEX.EMAIL.test(email);
@@ -35,6 +40,15 @@ const LoginScreen: React.FC = () => {
   const handleLogin = useCallback(() => {
     if (isEmailValid && isValidPassword && user && user.email === email && user.password === password) {
       dispatch(login(user));
+    }
+    else if (isEmailValid && isValidPassword && user && user.email === email && user.password !== password) {
+      setErrorMessage(t('enter_valid_password'));
+    }
+    else if (isEmailValid && isValidPassword && user && user.password === password && user.email !== email) {
+      setErrorMessage(t('enter_registered_email'));
+    }
+    else {
+      setErrorMessage(t('email_not_registered'));
     }
   }, [email, password]);
 
@@ -61,6 +75,7 @@ const LoginScreen: React.FC = () => {
           placeholder={t('enterPassword')}
           value={password}
           onChangeText={setPassword}
+          error={errorMessage}
           secureTextEntry
         />
         <ButtonWithText title={t('submit')} onPress={handleLogin} disabled={!(isEmailValid && isValidPassword)} />
