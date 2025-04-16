@@ -5,6 +5,12 @@ import ReactAppDependencyProvider
 
 @main
 class AppDelegate: RCTAppDelegate {
+  
+  func bridge(_ bridge: RCTBridge!, didNotFindModule moduleName: String!) -> Bool {
+    return true
+  }
+      
+  
   override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
     self.moduleName = "ECommApp"
     self.dependencyProvider = RCTAppDependencyProvider()
