@@ -1,13 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, GestureResponderEvent } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { COLORS } from '../constants';
-
-interface InlineActionTextProps {
-  label: string;
-  clickableText: string;
-  onPress: (event: GestureResponderEvent) => void;
-  align?: 'row' | 'column'; // optional: row (default) or column layout
-}
+import { InlineActionTextProps } from '../interfaces';
 
 const InlineActionText: React.FC<InlineActionTextProps> = ({
   label,

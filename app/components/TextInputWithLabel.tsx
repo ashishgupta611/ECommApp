@@ -1,11 +1,7 @@
-import React, { memo } from 'react';
-import { View, Text, TextInput, TextInputProps, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { COLORS } from '../constants';
-
-interface TextInputWithLabelProps extends TextInputProps {
-  label: string;
-  error?: string;
-}
+import { TextInputWithLabelProps } from '../interfaces';
 
 const TextInputWithLabel: React.FC<TextInputWithLabelProps> = ({
   label,

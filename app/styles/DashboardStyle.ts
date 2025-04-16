@@ -6,25 +6,6 @@ export const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
     padding: 10,
   },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  searchInput: {
-    flex: 1,
-    backgroundColor: 'white',
-    borderRadius: 8,
-    padding: 10,
-    marginRight: 10,
-    elevation: 2,
-  },
-  locationButton: {
-    padding: 10,
-    backgroundColor: 'white',
-    borderRadius: 8,
-    elevation: 2,
-  },
   multipurposeContent: {
     backgroundColor: 'white',
     borderRadius: 8,
@@ -57,7 +38,7 @@ export const styles = StyleSheet.create({
   productImage: {
     width: 80,
     height: 80,
-    borderRadius: 4,
+    borderRadius: 8,
   },
   productInfo: {
     flex: 1,

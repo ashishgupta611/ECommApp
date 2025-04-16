@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useMemo, JSX, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { View, Text, TextInput, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { CartItem, Product} from '../types';
+import { Product } from '../types';
 import { styles } from '../styles/DashboardStyle';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootState } from '../store';
 import { RootStackParamList } from '../types';
 import { NAVIGATION } from '../enums';
-import { addItem, updateCart, deleteItem } from '../reducers/cartSlice';
+import { addItem, updateCart } from '../reducers/cartSlice';
+import { TextInputWithButton } from '../components';
+import { MultipurposeContent } from '../enums';
+import { dummyProducts, mockProducts } from '../../dummy_data';
 
 type OrderPlaceScreenNavigationProp = StackNavigationProp<RootStackParamList, typeof NAVIGATION.OrderPlace>;
 
@@ -21,30 +24,18 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state: RootState) => state.rootReducer.cart);
-
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>(dummyProducts);
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
-  const [multipurposeContent, setMultipurposeContent] = useState<'latestOffers' | 'orderStatus'>('latestOffers');
-
-  // Mock data for products
-  const mockProducts: Product[] = Array(20).fill(null).map((_, i) => ({
-    id: i + 1,
-    name: `Product ${i + 1}`,
-    price: Math.floor(Math.random() * 100) + 10,
-    image: 'https://via.placeholder.com/150',
-    description: `Product ${i + 1}`,
-    category: 'Category1',
-    inStock: Math.random() > 0.2
-  }));
+  const [multipurposeContent, setMultipurposeContent] = useState<MultipurposeContent>(MultipurposeContent.LatestOffers);
 
   // Fetch products (mock implementation)
   const fetchProducts = async (): Promise<void> => {
     setLoading(true);
     // Simulate API call
     setTimeout(() => {
-      setProducts([...products, ...mockProducts.slice((page-1)*10, page*10)]);
+      //setProducts([...products, ...mockProducts.slice((page - 1) * 10, page * 10)]);
       setLoading(false);
     }, 500);
   };
@@ -55,7 +46,11 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
 
   const handleSearch = (): void => {
     // Implement search functionality
-    console.log('Searching for:', searchQuery);
+    //console.log(t('searching_for'), searchQuery);
+  };
+
+  const onSearchButtonPress = (): void => {
+
   };
 
   const navigateToOrderPlace = (item: Product) => {
@@ -64,9 +59,9 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
 
   const addToCart = useCallback((item: Product) => {
     const existingItem = cartItems.find(cartItem => cartItem.product.id === item.id);
-  
+
     if (existingItem) {
-      const updatedItems = cartItems.map(cartItem => 
+      const updatedItems = cartItems.map(cartItem =>
         cartItem.product.id === item.id
           ? { ...cartItem, quantity: cartItem.quantity + 1 }
           : cartItem
@@ -79,32 +74,32 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
   }, [cartItems]);
 
   const renderProductItem = ({ item }: { item: Product }) => (
-    <TouchableOpacity 
+    <TouchableOpacity
       style={styles.productItem}
-      onPress={() => navigateToOrderPlace(item)}
-    >
+      onPress={() => navigateToOrderPlace(item)} >
       <Image source={{ uri: item.image }} style={styles.productImage} />
       <View style={styles.productInfo}>
         <Text style={styles.productName}>{item.name}</Text>
         <Text style={styles.productPrice}>${item.price.toFixed(2)}</Text>
         <Text style={item.inStock ? styles.inStock : styles.outOfStock}>
-          {item.inStock ? 'In Stock' : 'Out of Stock'}
+          {item.inStock ? t('in_stock') : t('out_stock')}
         </Text>
       </View>
-      <TouchableOpacity style={styles.addToCart}
-      onPress={() => {addToCart(item)}}
-      >
-        <Icon name="add-shopping-cart" size={24} color="#4CAF50" />
+      <TouchableOpacity
+        disabled={!item.inStock}
+        style={styles.addToCart}
+        onPress={() => { addToCart(item) }} >
+        <Icon name="add-shopping-cart" size={24} color={item.inStock ? '#4CAF50' : '#ccc'} />
       </TouchableOpacity>
     </TouchableOpacity>
   );
-
+  
   const renderMultipurposeContent = (): JSX.Element => {
-    switch(multipurposeContent) {
-      case 'latestOffers':
+    switch (multipurposeContent) {
+      case MultipurposeContent.LatestOffers:
         return (
           <View style={styles.multipurposeContent}>
-            <Text style={styles.offerTitle}>Special Offers</Text>
+            <Text style={styles.offerTitle}>{t('special_offer')}</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View style={styles.offerCard}>
                 <Text>20% Off on all electronics</Text>
@@ -115,11 +110,11 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
             </ScrollView>
           </View>
         );
-      case 'orderStatus':
+      case MultipurposeContent.OrderStatus:
         return (
           <View style={styles.multipurposeContent}>
-            <Text style={styles.offerTitle}>Your Order Status</Text>
-            <Text>Order #12345 is on its way</Text>
+            <Text style={styles.offerTitle}>{t('order_status')}</Text>
+            <Text>{t('orderMessage', {orderId: 12345})}</Text>
           </View>
         );
       default:
@@ -129,20 +124,12 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* Search Bar */}
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search products..."
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          onSubmitEditing={handleSearch}
-        />
-        <TouchableOpacity style={styles.locationButton}>
-          <Icon name="location-on" size={24} color="#333" />
-        </TouchableOpacity>
-      </View>
-
+      <TextInputWithButton
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+        onSubmitEditing={handleSearch}
+        placeholder={t('search_products')}
+        onButtonPress={onSearchButtonPress} />
       {/* Multipurpose Window */}
       {renderMultipurposeContent()}
 
@@ -153,7 +140,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
         keyExtractor={item => item.id.toString()}
         onEndReached={() => !loading && setPage(page + 1)}
         onEndReachedThreshold={0.5}
-        ListFooterComponent={() => loading && <Text>Loading more products...</Text>}
+        ListFooterComponent={() => loading && <Text>{t('loading_more_products')}</Text>}
       />
     </View>
   );

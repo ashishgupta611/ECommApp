@@ -5,5 +5,6 @@ export type Product = {
   description: string;
   image: string;
   category: string;
+  rating: number;
   inStock: boolean;
 };

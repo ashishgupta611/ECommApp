@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import {
   KeyboardAvoidingView,
   ScrollView,
@@ -7,13 +7,8 @@ import {
   View,
   TouchableWithoutFeedback,
   Keyboard,
-  ViewStyle
 } from 'react-native';
-
-interface FormContainerProps {
-  children: ReactNode;
-  style?: ViewStyle;
-}
+import { FormContainerProps } from '../interfaces';
 
 const FormContainer: React.FC<FormContainerProps> = ({ children, style }) => {
   return (

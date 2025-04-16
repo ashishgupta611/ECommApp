@@ -1,12 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, GestureResponderEvent } from 'react-native';
 import { COLORS } from '../constants';
-
-interface ButtonWithTextProps {
-  title: string;
-  onPress: (event: GestureResponderEvent) => void;
-  disabled?: boolean;
-}
+import { ButtonWithTextProps } from '../interfaces';
 
 const ButtonWithText: React.FC<ButtonWithTextProps> = ({ title, onPress, disabled = false }) => {
   return (
