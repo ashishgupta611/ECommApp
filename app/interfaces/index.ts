@@ -6,3 +6,4 @@ export * from './TextInputWithLabelProps';
 export * from './TextInputWithButtonProps';
 export * from './ButtonWithTextProps';
 export * from './Location';
+export * from './LocationState';

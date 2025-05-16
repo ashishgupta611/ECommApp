@@ -5,16 +5,16 @@ import { View, Text, FlatList, Image, TouchableOpacity, ScrollView } from 'react
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Product } from '../types';
 import { styles } from '../styles/DashboardStyle';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootState } from '../store';
-import { RootStackParamList } from '../types';
+import { RootStackParamList, ScreenComponent } from '../types';
 import { NAVIGATION } from '../enums';
 import { addItem, updateCart } from '../reducers/cartSlice';
 import { TextInputWithButton } from '../components';
 import { MultipurposeContent } from '../enums';
 import { dummyProducts, mockProducts } from '../../dummy_data';
 
-type OrderPlaceScreenNavigationProp = StackNavigationProp<RootStackParamList, typeof NAVIGATION.OrderPlace>;
+type OrderPlaceScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, typeof NAVIGATION.OrderPlace>;
 
 type DashboardScreenProps = {
   navigation: OrderPlaceScreenNavigationProp;

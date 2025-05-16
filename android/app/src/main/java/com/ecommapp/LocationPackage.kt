@@ -1,5 +1,4 @@
-// android/src/main/java/com/yourapp/LocationPackage.kt
-package com.yourapp
+package com.ecommapp
 
 import com.facebook.react.ReactPackage
 import com.facebook.react.bridge.NativeModule

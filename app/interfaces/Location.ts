@@ -2,7 +2,9 @@ export interface Location {
   latitude: number;
   longitude: number;
   accuracy: number;
-  altitude: number | null;
-  speed: number | null;
-  heading: number | null;
-}
+  altitude?: number;
+  speed?: number;
+  heading?: number;
+  timestamp?: number;
+};
+

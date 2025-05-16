@@ -4,4 +4,10 @@ export enum NAVIGATION {
   MovieList = 'MovieList',
 };
 
+export enum DRAWER_NAVIGATION {
+  Dashboard = 'Dashboard',
+  Profile = 'Profile',
+  Settings = 'Settings',
+};
+
 
