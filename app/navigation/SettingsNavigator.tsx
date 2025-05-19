@@ -1,42 +1,40 @@
 import { TouchableOpacity, Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { DashboardNavStackList, RootDrawerParamList } from '../types';
+import { RootDrawerParamList, SettingsNavStackList } from '../types';
 import { NativeStackNavigationProp, createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { memo } from 'react';
 import { NAVIGATION } from '../enums';
 import LogoutButton from '../components/LogoutButton';
 
-import MovieListScreen from '../screens/MovieListScreen';
-import DashboardScreen from '../screens/DashboardScreen';
-import OrderPlaceScreen from '../screens/OrderPlaceScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 
-const Stack = createNativeStackNavigator<DashboardNavStackList>();
+const Stack = createNativeStackNavigator<SettingsNavStackList>();
 
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native';
 
-type DashboardNavigationProp = CompositeNavigationProp<
-  NativeStackNavigationProp<DashboardNavStackList, NAVIGATION.Dashboard>,
+type SettingsNavigationProp = CompositeNavigationProp<
+  NativeStackNavigationProp<SettingsNavStackList, NAVIGATION.Settings>,
   DrawerNavigationProp<RootDrawerParamList>
 >;
 
 type Props = {
-  navigation: DashboardNavigationProp;
-  route: RouteProp<DashboardNavStackList, NAVIGATION.Dashboard>;
+  navigation: SettingsNavigationProp;
+  route: RouteProp<SettingsNavStackList, NAVIGATION.Settings>;
 };
 
-const DashboardNavigator = ({ navigation }: Props) => {
+const SettingsNavigator = ({ navigation }: Props) => {
     const { t } = useTranslation();
     const MemoizedLogoutButton = memo(() => <LogoutButton />);
 
     return (
         <Stack.Navigator screenOptions={{headerShown: true}}>
           <Stack.Screen
-            name={NAVIGATION.Dashboard}
-            component={DashboardScreen}
+            name={NAVIGATION.Settings}
+            component={SettingsScreen}
             options={{
               // headerShown: false,
-              title: t('dashboard'),
+              title: t('Profile'),
               headerLeft: () => (
                 <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
                   <Text style={{ padding: 14, paddingLeft:0, fontWeight: 'bold', fontSize:18 }}>☰</Text>
@@ -45,23 +43,8 @@ const DashboardNavigator = ({ navigation }: Props) => {
               headerRight: () => (<MemoizedLogoutButton />)
             }}
           />
-          <Stack.Screen
-            name={NAVIGATION.OrderPlace}
-            component={OrderPlaceScreen}
-            options={{
-              title: t('place_order')
-            }}
-          />
-          <Stack.Screen
-            name={NAVIGATION.MovieList}
-            component={MovieListScreen}
-            options={{
-              title: t('popularMovies'),
-              headerRight: () => (<MemoizedLogoutButton />)
-            }}
-          />
         </Stack.Navigator>
     );
   };
 
-  export default DashboardNavigator;
+  export default SettingsNavigator;

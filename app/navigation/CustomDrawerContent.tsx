@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { DrawerContentScrollView, DrawerContentComponentProps, DrawerItemList } from '@react-navigation/drawer';
 import LogoutButton from '../components/LogoutButton';
 
@@ -10,15 +10,12 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
     <View style={styles.container}>
       <DrawerContentScrollView {...props}>
         <View style={styles.header}>
-          <Text style={styles.headerText}>My App</Text>
+          <Text style={styles.headerText}>Ayansh Shop</Text>
         </View>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
       <View style={styles.footer}>
         <MemoizedLogoutButton />
-        {/* <TouchableOpacity onPress={() => console.log('Logout pressed')}>
-          <Text style={styles.footerText}>Logout</Text>
-        </TouchableOpacity> */}
       </View>
     </View>
   );
@@ -42,9 +39,6 @@ const styles = StyleSheet.create({
     padding: 20,
     borderTopWidth: 1,
     borderTopColor: '#ccc',
-  },
-  footerText: {
-    fontSize: 16,
   },
 });
 

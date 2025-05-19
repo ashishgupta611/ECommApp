@@ -7,14 +7,14 @@ import { Product } from '../types';
 import { styles } from '../styles/DashboardStyle';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootState } from '../store';
-import { RootStackParamList, ScreenComponent } from '../types';
+import { DashboardNavStackList, ScreenComponent } from '../types';
 import { NAVIGATION } from '../enums';
 import { addItem, updateCart } from '../reducers/cartSlice';
 import { TextInputWithButton } from '../components';
 import { MultipurposeContent } from '../enums';
 import { dummyProducts, mockProducts } from '../../dummy_data';
 
-type OrderPlaceScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, typeof NAVIGATION.OrderPlace>;
+type OrderPlaceScreenNavigationProp = NativeStackNavigationProp<DashboardNavStackList, typeof NAVIGATION.OrderPlace>;
 
 type DashboardScreenProps = {
   navigation: OrderPlaceScreenNavigationProp;

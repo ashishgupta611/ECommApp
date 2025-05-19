@@ -1,5 +1,7 @@
 import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { RouteProp } from '@react-navigation/native'; 
+import { CompositeNavigationProp, RouteProp } from '@react-navigation/native'; 
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { NAVIGATION } from '../enums';
 
 export type RootDrawerParamList = {
     Dashboard: undefined;

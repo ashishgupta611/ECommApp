@@ -1,9 +1,9 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { RootDrawerParamList } from '../types';
-import ProfileScreen from '../screens/ProfileScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import ProfileNavigator from '../navigation/ProfileNavigator';
+import SettingsNavigator from '../navigation/SettingsNavigator';
 import CustomDrawerContent from '../navigation/CustomDrawerContent';
-import { NAVIGATION, DRAWER_NAVIGATION } from '../enums';
+import { NAVIGATION } from '../enums';
 
 const Drawer = createDrawerNavigator<RootDrawerParamList>();
 import DashboardNavigator from './DashboardNavigator';
@@ -17,14 +17,14 @@ const DrawerNavigator = () => {
         drawerType: 'slide',
         overlayColor: 'transparent',
         drawerStyle: {
-          width: '70%',
+          width: '60%',
           backgroundColor: '#fff',
         },
       }}
     >
       <Drawer.Screen name={NAVIGATION.Dashboard} component={DashboardNavigator} />
-      <Drawer.Screen name={DRAWER_NAVIGATION.Profile} component={ProfileScreen} />
-      <Drawer.Screen name={DRAWER_NAVIGATION.Settings} component={SettingsScreen} />
+      <Drawer.Screen name={NAVIGATION.Profile} component={ProfileNavigator} />
+      <Drawer.Screen name={NAVIGATION.Settings} component={SettingsNavigator} />
     </Drawer.Navigator>
   );
 };
