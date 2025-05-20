@@ -4,7 +4,6 @@ import { RootDrawerParamList, SettingsNavStackList } from '../types';
 import { NativeStackNavigationProp, createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { memo } from 'react';
 import { NAVIGATION } from '../enums';
-import LogoutButton from '../components/LogoutButton';
 
 import SettingsScreen from '../screens/SettingsScreen';
 
@@ -25,7 +24,6 @@ type Props = {
 
 const SettingsNavigator = ({ navigation }: Props) => {
     const { t } = useTranslation();
-    const MemoizedLogoutButton = memo(() => <LogoutButton />);
 
     return (
         <Stack.Navigator screenOptions={{headerShown: true}}>
@@ -34,13 +32,12 @@ const SettingsNavigator = ({ navigation }: Props) => {
             component={SettingsScreen}
             options={{
               // headerShown: false,
-              title: t('Profile'),
+              title: t('Settings'),
               headerLeft: () => (
                 <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
                   <Text style={{ padding: 14, paddingLeft:0, fontWeight: 'bold', fontSize:18 }}>☰</Text>
                 </TouchableOpacity>
               ),
-              headerRight: () => (<MemoizedLogoutButton />)
             }}
           />
         </Stack.Navigator>

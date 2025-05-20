@@ -3,7 +3,7 @@ import { View, Text, FlatList, Image } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { API, NUMBERS } from '../constants';
 import { styles } from '../styles/MovieListStyle';
-import useAPI from '../hooks/useAPI';
+import { useAPI } from '../hooks/useAPI';
 
 interface Movie {
   id: number;

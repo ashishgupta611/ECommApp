@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import { View, Text, StyleSheet, StatusBar, Platform } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
+//import { useFocusEffect } from '@react-navigation/native';
 import { DrawerNavigationProps } from '../types';
-import Header from '../components/Header';
+import { Header } from '../components';
 
 const DeviceSettings: React.FC<DrawerNavigationProps<'Settings'>> = () => {
 

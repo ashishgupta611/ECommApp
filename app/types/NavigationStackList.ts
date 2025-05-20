@@ -1,4 +1,4 @@
-import { NAVIGATION } from '../enums';
+import { NAVIGATION, ProfileNavigation } from '../enums';
 import { Product } from '.';
 
 export type DashboardNavStackList = {
@@ -8,8 +8,8 @@ export type DashboardNavStackList = {
 };
 
 export type ProfileNavStackList = {
-  [NAVIGATION.Profile]: undefined;
-  [NAVIGATION.EditProfile]: undefined;
+  [ProfileNavigation.Profile]: undefined;
+  [ProfileNavigation.EditProfile]: undefined;
 };
 
 export type SettingsNavStackList = {

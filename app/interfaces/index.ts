@@ -7,3 +7,8 @@ export * from './TextInputWithButtonProps';
 export * from './ButtonWithTextProps';
 export * from './Location';
 export * from './LocationState';
+export * from './Profile';
+export * from './AppButtonProps';
+export * from './EditableInfoSectionProps';
+export * from './EditableAddressSectionProps';
+export * from './ProfileHeaderProps';

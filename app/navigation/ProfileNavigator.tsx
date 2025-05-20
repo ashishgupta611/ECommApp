@@ -3,8 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { ProfileNavStackList, RootDrawerParamList } from '../types';
 import { NativeStackNavigationProp, createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { memo } from 'react';
-import { NAVIGATION } from '../enums';
-import LogoutButton from '../components/LogoutButton';
+import { ProfileNavigation } from '../enums';
 
 import ProfileScreen from '../screens/ProfileScreen';
 
@@ -12,25 +11,25 @@ const Stack = createNativeStackNavigator<ProfileNavStackList>();
 
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native';
+import EditProfileScreen from '../screens/EditProfileScreen';
 
 type ProfileNavigationProp = CompositeNavigationProp<
-  NativeStackNavigationProp<ProfileNavStackList, NAVIGATION.Profile>,
+  NativeStackNavigationProp<ProfileNavStackList, ProfileNavigation.Profile>,
   DrawerNavigationProp<RootDrawerParamList>
 >;
 
 type Props = {
   navigation: ProfileNavigationProp;
-  route: RouteProp<ProfileNavStackList, NAVIGATION.Profile>;
+  route: RouteProp<ProfileNavStackList, ProfileNavigation.Profile>;
 };
 
 const ProfileNavigator = ({ navigation }: Props) => {
     const { t } = useTranslation();
-    const MemoizedLogoutButton = memo(() => <LogoutButton />);
 
     return (
         <Stack.Navigator screenOptions={{headerShown: true}}>
           <Stack.Screen
-            name={NAVIGATION.Profile}
+            name={ProfileNavigation.Profile}
             component={ProfileScreen}
             options={{
               // headerShown: false,
@@ -40,7 +39,18 @@ const ProfileNavigator = ({ navigation }: Props) => {
                   <Text style={{ padding: 14, paddingLeft:0, fontWeight: 'bold', fontSize:18 }}>☰</Text>
                 </TouchableOpacity>
               ),
-              headerRight: () => (<MemoizedLogoutButton />)
+              headerRight: () => (
+                <TouchableOpacity onPress={() => navigation.navigate(ProfileNavigation.EditProfile)}>
+                  <Text style={{ fontWeight: 'bold', fontSize:16, width:50 }}>EDIT</Text>
+                </TouchableOpacity>
+              )
+            }}
+          />
+          <Stack.Screen
+            name={ProfileNavigation.EditProfile}
+            component={EditProfileScreen}
+            options={{
+              title: t('Edit Profile')
             }}
           />
         </Stack.Navigator>
@@ -48,3 +58,5 @@ const ProfileNavigator = ({ navigation }: Props) => {
   };
 
   export default ProfileNavigator;
+
+  

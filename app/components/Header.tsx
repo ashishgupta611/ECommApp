@@ -8,7 +8,7 @@ interface HeaderProps {
     showBackButton?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ title, onBackPress, showBackButton = false }) => {
+export const Header: React.FC<HeaderProps> = ({ title, onBackPress, showBackButton = false }) => {
     const navigation = useNavigation();
     
     const handleBackPress = useCallback(() => {
@@ -58,5 +58,3 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
-
-export default Header;

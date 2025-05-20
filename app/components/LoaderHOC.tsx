@@ -7,7 +7,7 @@ type WithLoaderProps = {
 };
 
 // HOC function
-function LoaderHOC<P extends object>(WrappedComponent: React.ComponentType<P>) {
+export function LoaderHOC<P extends object>(WrappedComponent: React.ComponentType<P>) {
   return function WithLoaderComponent(props: P & WithLoaderProps) {
     const { t } = useTranslation();
 
@@ -18,6 +18,4 @@ function LoaderHOC<P extends object>(WrappedComponent: React.ComponentType<P>) {
     return <WrappedComponent {...(restProps as P)} />;
   };
 };
-
-export default LoaderHOC;
 

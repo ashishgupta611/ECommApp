@@ -12,7 +12,7 @@ interface UseAPIResult<T> {
   error: string | null;
 }
 
-const useAPI = <T>({ url, initialData, token }: UseAPIProps<T>): UseAPIResult<T> => {
+export const useAPI = <T>({ url, initialData, token }: UseAPIProps<T>): UseAPIResult<T> => {
   const [data, setData] = useState<T>(initialData);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -50,5 +50,3 @@ const useAPI = <T>({ url, initialData, token }: UseAPIProps<T>): UseAPIResult<T>
 
   return { data, loading, error };
 };
-
-export default useAPI;

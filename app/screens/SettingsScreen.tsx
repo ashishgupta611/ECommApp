@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Switch, ScrollView, Platform, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Switch, ScrollView, Platform, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { DrawerNavigationProps } from '../types';
 import { styles } from '../styles/SettingsScreenStyle';
-import Header from '../components/Header';
 
 type Language = 'en' | 'ar';
 type PermissionStatus = 'granted' | 'denied' | 'not-determined';

@@ -3,7 +3,7 @@ import { RootDrawerParamList } from '../types';
 import ProfileNavigator from '../navigation/ProfileNavigator';
 import SettingsNavigator from '../navigation/SettingsNavigator';
 import CustomDrawerContent from '../navigation/CustomDrawerContent';
-import { NAVIGATION } from '../enums';
+import { NAVIGATION, ProfileNavigation } from '../enums';
 
 const Drawer = createDrawerNavigator<RootDrawerParamList>();
 import DashboardNavigator from './DashboardNavigator';
@@ -23,7 +23,7 @@ const DrawerNavigator = () => {
       }}
     >
       <Drawer.Screen name={NAVIGATION.Dashboard} component={DashboardNavigator} />
-      <Drawer.Screen name={NAVIGATION.Profile} component={ProfileNavigator} />
+      <Drawer.Screen name={ProfileNavigation.Profile} component={ProfileNavigator} />
       <Drawer.Screen name={NAVIGATION.Settings} component={SettingsNavigator} />
     </Drawer.Navigator>
   );

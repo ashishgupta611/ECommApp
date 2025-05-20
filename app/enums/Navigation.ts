@@ -2,9 +2,12 @@ export enum NAVIGATION {
   Dashboard = 'Dashboard',
   OrderPlace = 'OrderPlace',
   MovieList = 'MovieList',
+  Settings = 'Settings',
+};
+
+export enum ProfileNavigation {
   Profile = 'Profile',
   EditProfile = 'EditProfile',
-  Settings = 'Settings',
 };
 
 export enum DRAWER_NAVIGATION {
